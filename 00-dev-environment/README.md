@@ -114,10 +114,14 @@ authorized to in the labs account. These tokens will last approximately
 What method did you use to store the aws credentials?  What are some other
 options?
 
+> I stored my Access keys in the `~/.aws/credentials` file under default profile. I stored my MFA serial ARN in a local hidden file. I wrote a bash script that prompted for the MFA code, and used the default profile to get temporary credentials. I stored the temporary credentials back in the `~/.aws/credentials` file under temp profile using `aws configure set` commands. Some other options were setting it in the environment variables. But setting it to a profile on the credentials file allowed me to persist config settings for the profile. 
+
 ###### Question 0.1.1: 2
 
 Which AWS environment variable cannot be set in order to run the
 `aws sts get-session-token` command?
+
+
 
 ##### Option 2: Using AWS Vault to automatically handle your temporary tokens
 
