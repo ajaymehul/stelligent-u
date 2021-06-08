@@ -121,7 +121,7 @@ options?
 Which AWS environment variable cannot be set in order to run the
 `aws sts get-session-token` command?
 
-
+> Tried reading the documentation and testing out setting different environment variables. Couldn't find the answer to this question.
 
 ##### Option 2: Using AWS Vault to automatically handle your temporary tokens
 
