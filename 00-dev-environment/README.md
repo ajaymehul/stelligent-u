@@ -200,6 +200,8 @@ your laptop and the access you have in the Cloud9 environment? What
 other methods are there to provide this level of access without using
 keys?_
 
+> The cloud9 environment had a `~/.aws/credentials` file, which noted that modifying that file might cause it to not get updated. Deep into the settings of Cloud9 environment, there was also an option called "Managed AWS temporary credentials" enabled. This leads me to think that cloud9 environment also uses the same mechanism to refresh temporary tokens, but its automatically handled by Cloud9. Other ways to have the same level of access includes directly performing actions on the AWS Management Console.
+
 #### Task
 
 Configure Cloud9 to work with the programming language you will be using
