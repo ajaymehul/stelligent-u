@@ -9,7 +9,7 @@ if [ ! -f ~/.aws/config ]; then
 fi
 
 #Check for credentials file
-if [ ! -f ~/.aws/config ]; then
+if [ ! -f ~/.aws/credentials ]; then
 	echo "Missing AWS Credentials"
 	exit 0;
 fi
