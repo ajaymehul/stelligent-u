@@ -14,7 +14,9 @@
       - [Lab 1.1.5: Termination Protection; Clean up](#lab-115-termination-protection-clean-up)
     - [Retrospective 1.1](#retrospective-11)
       - [Question: Why YAML](#question-why-yaml)
+			> YAML is visually cleaner than JSON with less verbose syntax and has more functionalities like commenting.
       - [Question: Protecting Resources](#question-protecting-resources)
+			> Other ways to prevent CFN stacks from being deleted include setting a DeletionPolicy attribute or using IAM policies to deny destructive actions. The difference between DeletionPolicy and Termination Protection is that DeleteionPolicy allows you to prevent the deletion of resources inside the template during a stack update while Termination Protection only prevents the deletion of the whole stack.
       - [Task: String Substitution](#task-string-substitution)
   - [Lesson 1.2: Integration with Other AWS Resources](#lesson-12-integration-with-other-aws-resources)
     - [Principle 1.2](#principle-12)
