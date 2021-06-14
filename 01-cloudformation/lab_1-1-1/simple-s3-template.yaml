@@ -3,8 +3,14 @@ Description: 'Minimal S3 bucket CFN template for stelligent-u'
 Metadata:
   CreatedBy: 'ajaymehul'
   SupportedResources: 'S3'
+Parameters:
+  BucketNameParam:
+    Type: String
+    Description: 'Enter name for the s3 bucket created by this template'
 Resources:
   SimpleBucket:
     Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketNameParam
 
   

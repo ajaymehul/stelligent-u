@@ -1,8 +1,0 @@
-Ajaymehul.Anbuselvam@MACUSSTG2445400 lab_1-1-1 % aws cloudformation create-stack \
---stack-name ajay-s3-stack \
---template-body file://simple-s3-template.yaml
-
-{
-    "StackId": "arn:aws:cloudformation:us-east-1:324320755747:stack/ajay-s3-stack/d2d3a8a0-cd4b-11eb-89f3-0ea6aa6eaed9"
-}
-
