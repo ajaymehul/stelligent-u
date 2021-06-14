@@ -7,9 +7,16 @@ Parameters:
   BucketNameParam:
     Type: String
     Description: 'Enter name for the s3 bucket created by this template'
+Conditions:
+  IsPreferredRegion: !Equals
+    - !Ref AWS::Region
+    - 'us-east-1'
 Resources:
   SimpleBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Join ['-', [!Ref AWS::AccountId, !Ref BucketNameParam]]
+      BucketName: !If
+        - IsPreferredRegion
+        - !Join ['-', [!Ref AWS::AccountId, !Ref BucketNameParam]]
+        - !Join ['-', [!Ref AWS::Region, !Ref BucketNameParam]]
 
