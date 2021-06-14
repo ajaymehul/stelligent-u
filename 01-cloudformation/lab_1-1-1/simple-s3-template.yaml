@@ -1,0 +1,10 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Minimal S3 bucket CFN template for stelligent-u'
+Metadata:
+  CreatedBy: 'ajaymehul'
+  SupportedResources: 'S3'
+Resources:
+  SimpleBucket:
+    Type: AWS::S3::Bucket
+
+  
