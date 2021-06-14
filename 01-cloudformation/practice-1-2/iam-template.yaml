@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Template to create IAM user and policy'
+Metadata:
+  CreatedBy: 'ajaymehul'
+  SupportedResources: 'IAM'
+Parameters:
+  UserName:
+    Type: String
+    Default: 'ajay-stelli-u-cfn-usr'
+Resources:
+  NewIAMUser:
+    Type: AWS::IAM::User
+    Properties: 
+      UserName: !Ref UserName
+  S3ManagedIAMPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Description: 'Policy giving read acess to all s3 buckets'
+      Path: /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 
+              - 's3:Get*'
+              - 's3:List*'
+            Resource: '*'
+      Users:
+        - !Ref UserName 
+   
