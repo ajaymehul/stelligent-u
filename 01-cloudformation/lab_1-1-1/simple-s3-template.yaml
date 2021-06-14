@@ -11,6 +11,5 @@ Resources:
   SimpleBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref BucketNameParam
+      BucketName: !Join ['-', [!Ref AWS::AccountId, !Ref BucketNameParam]]
 
-  
