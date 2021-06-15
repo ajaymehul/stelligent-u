@@ -243,6 +243,8 @@ that parameter. Modify the first Stack's template so that it utilizes
 this Parameter Store parameter value as the IAM User's name. Update the
 first stack. Finally, tear it down.
 
+> This only worked when I deleted and created a new stack. Updating the stack to change the username failed.
+
 ## Lesson 1.3: Portability & Staying DRY
 
 ### Principle 1.3
