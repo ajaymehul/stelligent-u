@@ -5,8 +5,9 @@ Metadata:
   SupportedResources: 'IAM'
 Parameters:
   UserName:
-    Type: String
-    Default: 'ajay-stelli-u-cfn-usr'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Description: 'Username taken from SSM Parameter Store'
+    Default: '/ajay/stelligent-u-01'
 Resources:
   NewIAMUser:
     Type: AWS::IAM::User
