@@ -32,5 +32,5 @@ Outputs:
     Description: 'ARN of the named policy created by this stack'
     Value: !Ref S3ManagedIAMPolicy
     Export:
-      Name: !Join ['-', [ !Ref UserName, 'iam-policy-arn']]
+      Name: !Join ['-', [ !Ref AWS::StackName, 'iam-policy-arn']]
    

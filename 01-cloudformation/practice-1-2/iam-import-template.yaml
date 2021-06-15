@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Template to create IAM user import policy from another stack'
+Metadata:
+  CreatedBy: 'ajaymehul'
+  SupportedResources: 'IAM'
+Parameters:
+  UserName:
+    Type: String
+    Default: 'ajay-stelli-u-cfn-usr-2'
+  PolicyStackName:
+    Type: String
+Resources:
+  NewIAMUser:
+    Type: AWS::IAM::User
+    Properties: 
+      UserName: !Ref UserName
+      ManagedPolicyArns: 
+        - !ImportValue 
+          Fn::Sub: '${PolicyStackName}-iam-policy-arn'
+   
