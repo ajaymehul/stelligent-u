@@ -114,10 +114,14 @@ authorized to in the labs account. These tokens will last approximately
 What method did you use to store the aws credentials?  What are some other
 options?
 
+> I stored my Access keys in the `~/.aws/credentials` file under default profile. I stored my MFA serial ARN in a local hidden file. I wrote a bash script that prompted for the MFA code, and used the default profile to get temporary credentials. I stored the temporary credentials back in the `~/.aws/credentials` file under temp profile using `aws configure set` commands. Some other options were setting it in the environment variables. But setting it to a profile on the credentials file allowed me to persist config settings for the profile. 
+
 ###### Question 0.1.1: 2
 
 Which AWS environment variable cannot be set in order to run the
 `aws sts get-session-token` command?
+
+> Tried reading the documentation and testing out setting different environment variables. Couldn't find the answer to this question.
 
 ##### Option 2: Using AWS Vault to automatically handle your temporary tokens
 
@@ -195,6 +199,8 @@ results. What does this tell you about the access the keys give you on
 your laptop and the access you have in the Cloud9 environment? What
 other methods are there to provide this level of access without using
 keys?_
+
+> The cloud9 environment had a `~/.aws/credentials` file, which noted that modifying that file might cause it to not get updated. Deep into the settings of Cloud9 environment, there was also an option called "Managed AWS temporary credentials" enabled. This leads me to think that cloud9 environment also uses the same mechanism to refresh temporary tokens, but its automatically handled by Cloud9. Other ways to have the same level of access includes directly performing actions on the AWS Management Console.
 
 #### Task
 
