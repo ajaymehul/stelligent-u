@@ -7,7 +7,7 @@ script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
 usage() {
   cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") [-h] [--delete] --stack-name <stack_name> --regions <regions> --template <cfn_template>
+Usage: $(basename "${BASH_SOURCE[0]}") [-h] [--delete] --friendly-name <friendly_name> --regions <regions> --template <cfn_template>
 
 Tool to manage cloudformation stacks of s3 buckets in multiple regions.
 This script automatically chooses to create or update the stack based on its existence.
@@ -22,7 +22,7 @@ Flags:
 -d, --delete    Flag set to delete the CFN stack
 
 Parameters:
---stack-name <value>  Friendly name of the stacks & corresponding s3 buckets
+--friendly-name <value>  Friendly name of the stacks & corresponding s3 buckets
 --regions <value>    	JSON file with a list of target regions
 --template <value>    File name of CFN template
 EOF
@@ -65,11 +65,11 @@ parse_params() {
 		-d | --delete)
 			delete=1
 			;;
-    --stack-name) 
-      stack_name="${2-}"
+    --friendly-name) 
+      friendly_name="${2-}"
       shift
       ;;
-		--region)
+		--regions)
 			regions="${2-}"
 			shift
 			;;
@@ -88,7 +88,7 @@ parse_params() {
   # check required params and arguments
 #  [[ -z "${cfn_template-}" ]] && usage && die "Missing required parameter: template"
 	[[ -z "${regions-}" ]] && usage && die "Missing required parameter: regions"
-	[[ -z "${stack_name-}" ]] && usage && die "Missing required parameter: stack_name"
+	[[ -z "${friendly_name-}" ]] && usage && die "Missing required parameter: friendly_name"
 #  [[ ${#args[@]} -eq 0 ]] && die "Missing script arguments"
 
   return 0
@@ -107,7 +107,7 @@ create_update_stack () {
 		--stack-name $full_stack_name \
 		--region $region \
 		--template-body file://$cfn_template \
-		--parameters ParameterKey=BucketNameParam,ParameterValue=$stack_name
+		--parameters ParameterKey=BucketNameParam,ParameterValue=$friendly_name
 }
 
 
@@ -127,7 +127,7 @@ regions_list=`jq -r '.regionList[]' $regions`
 msg "${GREEN}Regions:${NOFORMAT}"  && echo $regions_list
 for reg in $regions_list
 do
-	full_name="${reg}-${stack_name}"
+	full_name="${reg}-${friendly_name}"
 
 	if [ $delete -eq 1 ] ; then 
 		msg "${CYAN} Deleteing stack ${full_name}.... ${NOFORMAT}"
@@ -154,6 +154,6 @@ done
 
 
 msg "${YELLOW}Read parameters:${NOFORMAT}"
-msg "--stack-name: ${stack_name}"
+msg "--friendly-name: ${friendly_name}"
 msg "--regions: ${regions}"
 msg "--template: ${cfn_template}"
