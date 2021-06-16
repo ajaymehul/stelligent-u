@@ -84,14 +84,18 @@ def main():
 	regions_file = sys.argv[2]
 	template_file = sys.argv[3]
 
+	#parse JSON data from regions file
 	regions_list = _read_regions(regions_file)
 
+	#create list of boto clients for each region
 	regional_clients = _create_regional_clients(regions_list)
 
 	for index, client in enumerate(regional_clients):
+		# generate full name for stack with the format <region>-<friendly-name>
 		full_stack_name = "-".join([regions_list[index], stack_name])
-
+		
 		if _stack_exists(full_stack_name, client):
+			# Check if delete flag was specified in the end
 			if len(sys.argv) > 4 and sys.argv[4] == "delete":
 				_delete_stack(full_stack_name, client)		
 			else:
