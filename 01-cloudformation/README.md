@@ -321,12 +321,16 @@ functionality. Query S3 to ensure that the buckets have been deleted.
 _Can you list 4 features of CloudFormation that help make a CFN template
 portable code?_
 
+> Parameters; Functions; Imports; Exports/Outputs
+
 #### Task: DRYer Code
 
 How reusable is your SDK-orchestration code? Did you share a single
 method to load the configuration file for both stack creation/updating
 (Lab 1.3.2) and deletion (Lab 1.3.3)? Did you separate the methods for
 finding existing stacks from the methods that create or update those stacks?
+
+> Wrote separate methods for finding stacks, create, update, delete.
 
 If not, refactor your Python, Ruby or NodeJS scripts to work in the
 manner described.
