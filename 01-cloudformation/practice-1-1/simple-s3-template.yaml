@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Minimal S3 bucket CFN template for stelligent-u'
+Metadata:
+  CreatedBy: 'ajaymehul'
+  SupportedResources: 'S3'
+Parameters:
+  BucketNameParam:
+    Type: String
+    Description: 'Enter name for the s3 bucket created by this template'
+Conditions:
+  IsPreferredRegion: !Equals
+    - !Ref AWS::Region
+    - 'us-east-1'
+Resources:
+  SimpleBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !If
+        - IsPreferredRegion
+        - !Join ['-', [!Ref AWS::AccountId, !Ref BucketNameParam]]
+        - !Join ['-', [!Ref AWS::Region, !Ref BucketNameParam]]
+

@@ -1,0 +1,10 @@
+[
+	{
+		"ParameterKey": "UserName",
+		"ParameterValue": "ajay-cfn-user-2"
+	},
+	{
+		"ParameterKey": "PolicyStackName",
+		"ParameterValue": "ajay-iam-stack"
+	}
+]

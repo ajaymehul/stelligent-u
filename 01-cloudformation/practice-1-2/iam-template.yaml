@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Template to create IAM user and policy'
+Metadata:
+  CreatedBy: 'ajaymehul'
+  SupportedResources: 'IAM'
+Parameters:
+  UserName:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Description: 'Username taken from SSM Parameter Store'
+    Default: '/ajay/stelligent-u-01'
+Resources:
+  NewIAMUser:
+    Type: AWS::IAM::User
+    Properties: 
+      UserName: !Ref UserName
+  S3ManagedIAMPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Description: 'Policy giving read acess to all s3 buckets'
+      Path: /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 
+              - 's3:Get*'
+              - 's3:List*'
+            Resource: '*'
+      Users:
+        - !Ref UserName 
+Outputs:
+  ManagedPolicyArn:
+    Description: 'ARN of the named policy created by this stack'
+    Value: !Ref S3ManagedIAMPolicy
+    Export:
+      Name: !Join ['-', [ !Ref AWS::StackName, 'iam-policy-arn']]
+   

@@ -159,14 +159,15 @@ name.
 #### Question: Why YAML
 
 _Why do we prefer the YAML format for CFN templates?_
+> YAML is visually cleaner than JSON with less verbose syntax and has more functionalities like commenting.
 
 #### Question: Protecting Resources
 
 _What else can you do to prevent resources in a stack from being deleted?_
-
-See [DeletionPolicy](https://aws.amazon.com/premiumsupport/knowledge-center/cloudformation-accidental-updates/).
+> Other ways to prevent CFN stacks from being deleted include setting a DeletionPolicy attribute or using IAM policies to deny destructive actions.See [DeletionPolicy](https://aws.amazon.com/premiumsupport/knowledge-center/cloudformation-accidental-updates/).
 
 _How is that different from applying Termination Protection?_
+> The difference between DeletionPolicy and Termination Protection is that DeleteionPolicy allows you to prevent the deletion of resources inside the template during a stack update while Termination Protection only prevents the deletion of the whole stack.
 
 #### Task: String Substitution
 
@@ -241,6 +242,8 @@ parameter in the same region as the first Stack, and provide a value for
 that parameter. Modify the first Stack's template so that it utilizes
 this Parameter Store parameter value as the IAM User's name. Update the
 first stack. Finally, tear it down.
+
+> This only worked when I deleted and created a new stack. Updating the stack to change the username failed.
 
 ## Lesson 1.3: Portability & Staying DRY
 
@@ -318,12 +321,16 @@ functionality. Query S3 to ensure that the buckets have been deleted.
 _Can you list 4 features of CloudFormation that help make a CFN template
 portable code?_
 
+> Parameters; Functions; Imports; Exports/Outputs
+
 #### Task: DRYer Code
 
 How reusable is your SDK-orchestration code? Did you share a single
 method to load the configuration file for both stack creation/updating
 (Lab 1.3.2) and deletion (Lab 1.3.3)? Did you separate the methods for
 finding existing stacks from the methods that create or update those stacks?
+
+> Wrote separate methods for finding stacks, create, update, delete.
 
 If not, refactor your Python, Ruby or NodeJS scripts to work in the
 manner described.
