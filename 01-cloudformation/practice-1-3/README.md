@@ -1,4 +1,4 @@
-## `s3-cfn.sh`
+## s3-cfn.sh
 ### Usage
 `s3-cfn.sh [-h] [--delete] --stack-name <stack_name> --regions <regions> --template <cfn_template>`
 > Executing the script without the optional --delete flag creates or updates the stack depending on its existence. Specifying the --delete flag deletes the stacks named <region>-<friendly-name>
@@ -10,7 +10,7 @@ Format for specifying list of regions in json:
 }
 ```
 
-## `s3-cfn.py`
+## s3-cfn.py
 
 ### Usage
 `./s3-cfn.py <stack-name> <regions-json> <template-yaml> [delete (optional)]`
