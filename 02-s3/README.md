@@ -238,9 +238,13 @@ file and read "private.txt".
 _What do you see when you try to read the existing bucket policy before you
 replace it?_
 
+> There was no bucket policy when I tried to read it before setting one.
+
 #### Question: Default Permissions
 
 _How do the default permissions differ from the policy you're setting?_
+
+> The default permissions of objects in an S3 bucket does not allow public read. 
 
 #### Lab 2.2.4: Using CloudFormation
 
