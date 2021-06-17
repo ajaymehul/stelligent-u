@@ -134,11 +134,15 @@ paths?_
 
 _[Can anyone else see your file yet](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html)?_
 
+> No, access is denied for calls without the session-token.
+
 For further reading, see the S3 [Access Policy Language Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-policy-language-overview.html).
 
 ##### Question: Sync vs Copy
 
 _What makes "sync" a better choice than "cp" for some S3 uploads?_
+
+> `sync` is recrusive and preserves the folder strucutre while cp only copies a single file.
 
 #### Lab 2.1.3: Exclude Private Objects When Uploading to a Bucket
 
