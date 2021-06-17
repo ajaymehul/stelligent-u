@@ -313,9 +313,13 @@ Delete one of the objects that you changed.
 
 _Can you still retrieve old versions of the object you removed?_
 
+Yes, requesting the correct version id in the format `aws s3api get-object --bucket <bucket-name> --version-id <version-id> --key <key> <local-target>` retrieves any old versions.
+
 ##### Question: Deleting All Versions
 
 _How would you delete all versions?_
+
+Write a script to retrieve the list of version ids for the object and for each version call `aws s3api delete-object --bucket <bucket-name> --version-id <version-id> --key <key>`
 
 #### Lab 2.3.3: Tagging S3 Resources
 
