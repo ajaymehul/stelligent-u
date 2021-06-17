@@ -370,6 +370,8 @@ expire them after 1 day.
 the lifecycle of a web application? Would you use those features to manage
 the webapp code itself, or just the app's data?*
 
+> To store only the app's data provided the webapp code is source controlled in a git repository. Although the versioning feature could be used to source control code, git features are far better suited for development compared to s3. Lifecycle policies are more beneficial with larger file, and size of code files would be too small to make lifecycling viable. 
+
 ## Lesson 2.4: S3 Object Encryption
 
 ### Principle 2.4
