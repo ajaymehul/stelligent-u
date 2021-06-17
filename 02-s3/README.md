@@ -393,6 +393,8 @@ S3-managed key ("SSE-S3").
 
 _Do you need to re-upload all your files to get them encrypted?_
 
+> Yes, changing a bucket configuration to require SSE only enforces it on new uploads. https://aws.amazon.com/premiumsupport/knowledge-center/s3-aws-kms-default-encryption/
+
 #### Lab 2.4.2: SSE with KMS Keys
 
 Change your bucket policy to require KMS encryption for all objects.
