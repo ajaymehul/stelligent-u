@@ -209,6 +209,8 @@ permissions on the file?_
 
 _Is there a way you can change the permissions on the file without re-uploading it?_
 
+> `--acl <option>` only seems to modify permissions for the files it uploads. Based on this https://github.com/aws/aws-cli/issues/3215 , I believe it is intended. The way to change permission without reuploading it is to copy/sync the object onto itself with `aws s3 cp <s3-path> <s3-path> --acl <option>
+
 #### Lab 2.2.3: Using the API from the CLI
 
 The [aws s3api command](https://docs.aws.amazon.com/cli/latest/reference/s3api/index.html#s3api)
