@@ -15,7 +15,8 @@ Resources:
       BucketEncryption: 
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256 
+             SSEAlgorithm: 'aws:kms'
+             KMSMasterKeyID: 'arn:aws:kms:us-west-2:324320755747:key/ed39658a-7c61-4cdb-ac86-c3bc65fab16e' 
       VersioningConfiguration:
         Status: Enabled
       LifecycleConfiguration:
