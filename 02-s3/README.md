@@ -332,6 +332,8 @@ through the CLI or the console.
 _Can you change a single tag on a bucket or object, or do you have to change
 all its tags at once?_
 
+> It can changed for both using the `aws s3api put-bucket-tagging` and `aws s3api put-object-tagging` commands. 
+
 (See `aws:cloudformation:stack-id` and other AWS-managed tags.)
 
 #### Lab 2.3.4: Object Lifecycles
