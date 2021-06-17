@@ -418,10 +418,14 @@ key.
 _Look through the [S3 encryption docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html).
 What benefits might you gain by using a KMS key instead of an S3-managed key?_
 
+KMS encyption provides more fine-grained control over who can use the key, and better logs for security auditing purposes. 
+
 ##### Question: Customer Managed CMK
 
 _Going further, what benefits might you gain by using a KMS key you created
 yourself?_
+
+> This might be useful in scenarios where a company's security policy requires them to manage their key.
 
 #### Lab 2.4.3: Using Your Own KMS Key
 
@@ -443,6 +447,8 @@ Use your own KMS key to encrypt files in S3.
 
 _Can you use the alias when uploading files?_
 
+> Yes, if they KMS key is in the same account.
+
 ### Retrospective 2.4
 
 #### Question: Requiring Encryption
@@ -450,9 +456,13 @@ _Can you use the alias when uploading files?_
 _After changing your bucket policy, can you upload files that aren't encrypted?
 If so, how would you require encryption on all files?_
 
+> By specifying an explicity deny for put actions without encyption in the bucket policy. 
+
 #### Question: Multiple Keys
 
 _Can you use different keys for different objects?_
+
+> Yes. 
 
 ## Further Reading
 
