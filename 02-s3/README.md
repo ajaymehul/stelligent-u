@@ -128,6 +128,8 @@ _How would you copy the contents of the directory to the top level of your bucke
 _How would you copy the contents and include the directory name in the s3 object
 paths?_
 
+> aws s3 sync <folder-name> s3://<bucket-name>/<folder-name>
+
 ##### Question: Object Access
 
 _[Can anyone else see your file yet](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html)?_
