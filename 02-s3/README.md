@@ -121,6 +121,8 @@ Add an object to your bucket:
 
 _How would you copy the contents of the directory to the top level of your bucket?_
 
+> aws s3 cp <path-to-file> s3://<bucket-name>/<file-name>
+
 ##### Question: Directory Copying
 
 _How would you copy the contents and include the directory name in the s3 object
