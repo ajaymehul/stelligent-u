@@ -121,20 +121,28 @@ Add an object to your bucket:
 
 _How would you copy the contents of the directory to the top level of your bucket?_
 
+> aws s3 cp <path-to-file> s3://<bucket-name>/<file-name>
+
 ##### Question: Directory Copying
 
 _How would you copy the contents and include the directory name in the s3 object
 paths?_
 
+> aws s3 sync <folder-name> s3://<bucket-name>/<folder-name>
+
 ##### Question: Object Access
 
 _[Can anyone else see your file yet](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html)?_
+
+> No, access is denied for calls without the session-token.
 
 For further reading, see the S3 [Access Policy Language Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-policy-language-overview.html).
 
 ##### Question: Sync vs Copy
 
 _What makes "sync" a better choice than "cp" for some S3 uploads?_
+
+> `sync` is recrusive and preserves the folder strucutre while cp only copies a single file.
 
 #### Lab 2.1.3: Exclude Private Objects When Uploading to a Bucket
 
@@ -180,6 +188,8 @@ directory with the "aws s3 sync" command.
 _After this, can you download one of your files from the bucket without using
 your API credentials?_
 
+> Yes. `aws s3 sync <file> <s3-location> --acl public-read` allows me to curl that file directly. 
+
 #### Lab 2.2.2: Use the CLI to Restrict Access to Private Data
 
 You just made "private.txt" publicly readable. Ensure that only the
@@ -191,11 +201,15 @@ permissions of the other files.
 _How could you use "aws s3 cp" or "aws s3 sync" command to modify the
 permissions on the file?_
 
+> Specifying the `--acl <option>` parameter in `aws s3 cp` or `aws s3 sync` can be used to set the permissions on the file
+
 (Hint: see the list of [Canned ACLs](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl).)
 
 ##### Question: Changing Permissions
 
 _Is there a way you can change the permissions on the file without re-uploading it?_
+
+> `--acl <option>` only seems to modify permissions for the files it uploads. Based on this https://github.com/aws/aws-cli/issues/3215 , I believe it is intended. The way to change permission without reuploading it is to copy/sync the object onto itself with `aws s3 cp <s3-path> <s3-path> --acl <option>`
 
 #### Lab 2.2.3: Using the API from the CLI
 
@@ -224,9 +238,13 @@ file and read "private.txt".
 _What do you see when you try to read the existing bucket policy before you
 replace it?_
 
+> There was no bucket policy when I tried to read it before setting one.
+
 #### Question: Default Permissions
 
 _How do the default permissions differ from the policy you're setting?_
+
+> The default permissions of objects in an S3 bucket does not allow public read. 
 
 #### Lab 2.2.4: Using CloudFormation
 
@@ -295,9 +313,13 @@ Delete one of the objects that you changed.
 
 _Can you still retrieve old versions of the object you removed?_
 
+Yes, requesting the correct version id in the format `aws s3api get-object --bucket <bucket-name> --version-id <version-id> --key <key> <local-target>` retrieves any old versions.
+
 ##### Question: Deleting All Versions
 
 _How would you delete all versions?_
+
+Write a script to retrieve the list of version ids for the object and for each version call `aws s3api delete-object --bucket <bucket-name> --version-id <version-id> --key <key>`
 
 #### Lab 2.3.3: Tagging S3 Resources
 
@@ -309,6 +331,8 @@ through the CLI or the console.
 
 _Can you change a single tag on a bucket or object, or do you have to change
 all its tags at once?_
+
+> It can changed for both using the `aws s3api put-bucket-tagging` and `aws s3api put-object-tagging` commands. 
 
 (See `aws:cloudformation:stack-id` and other AWS-managed tags.)
 
@@ -331,6 +355,8 @@ _Management Lifecycle_ tab to double-check your settings.
 
 _Can you make any of these transitions more quickly?_
 
+> No, the minimum amount of time before an object can be moved from Standard to Standard-IA is 30 days.
+
 *See the [S3 lifecycle transitions doc](https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html).*
 
 ### Stretch Challenge
@@ -343,6 +369,8 @@ expire them after 1 day.
 *How could the lifecycle and versioning features of S3 be used to manage
 the lifecycle of a web application? Would you use those features to manage
 the webapp code itself, or just the app's data?*
+
+> To store only the app's data provided the webapp code is source controlled in a git repository. Although the versioning feature could be used to source control code, git features are far better suited for development compared to s3. Lifecycle policies are more beneficial with larger file, and size of code files would be too small to make lifecycling viable. 
 
 ## Lesson 2.4: S3 Object Encryption
 
@@ -364,6 +392,8 @@ S3-managed key ("SSE-S3").
 ##### Question: Encrypting Existing Objects
 
 _Do you need to re-upload all your files to get them encrypted?_
+
+> Yes, changing a bucket configuration to require SSE only enforces it on new uploads. https://aws.amazon.com/premiumsupport/knowledge-center/s3-aws-kms-default-encryption/ . One way to perform it without actually "re-uploading" is to perform a `aws s3 cp <s3-file-location> <s3-file-location` in place copy operation. 
 
 #### Lab 2.4.2: SSE with KMS Keys
 
@@ -388,10 +418,14 @@ key.
 _Look through the [S3 encryption docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html).
 What benefits might you gain by using a KMS key instead of an S3-managed key?_
 
+KMS encyption provides more fine-grained control over who can use the key, and better logs for security auditing purposes. 
+
 ##### Question: Customer Managed CMK
 
 _Going further, what benefits might you gain by using a KMS key you created
 yourself?_
+
+> This might be useful in scenarios where a company's security policy requires them to manage their key.
 
 #### Lab 2.4.3: Using Your Own KMS Key
 
@@ -413,6 +447,8 @@ Use your own KMS key to encrypt files in S3.
 
 _Can you use the alias when uploading files?_
 
+> Yes, if they KMS key is in the same account.
+
 ### Retrospective 2.4
 
 #### Question: Requiring Encryption
@@ -420,9 +456,13 @@ _Can you use the alias when uploading files?_
 _After changing your bucket policy, can you upload files that aren't encrypted?
 If so, how would you require encryption on all files?_
 
+> By specifying an explicity deny for put actions without encyption in the bucket policy. 
+
 #### Question: Multiple Keys
 
 _Can you use different keys for different objects?_
+
+> Yes. 
 
 ## Further Reading
 
