@@ -188,6 +188,8 @@ directory with the "aws s3 sync" command.
 _After this, can you download one of your files from the bucket without using
 your API credentials?_
 
+> Yes. `aws s3 sync <file> <s3-location> --acl public-read` allows me to curl that file directly. 
+
 #### Lab 2.2.2: Use the CLI to Restrict Access to Private Data
 
 You just made "private.txt" publicly readable. Ensure that only the
