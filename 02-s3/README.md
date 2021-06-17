@@ -355,6 +355,8 @@ _Management Lifecycle_ tab to double-check your settings.
 
 _Can you make any of these transitions more quickly?_
 
+> No, the minimum amount of time before an object can be moved from Standard to Standard-IA is 30 days.
+
 *See the [S3 lifecycle transitions doc](https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html).*
 
 ### Stretch Challenge
