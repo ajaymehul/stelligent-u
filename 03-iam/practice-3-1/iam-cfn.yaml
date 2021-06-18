@@ -19,6 +19,7 @@ Resources:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
       ManagedPolicyName: 'ajay-iam-read-all-resources'
+      Description: 'Reusable IAM policy to read all IAM resources'
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -28,4 +29,17 @@ Resources:
               - "iam:List*"
             Resource: "*"
       Roles:
-        - Ref: 'ReadAllRole'         
+        - Ref: 'ReadAllRole' 
+        - Ref: 'ReadAllRole2'        
+  ReadAllRole2:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      Description: 'Second IAM role to get IAM resources'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: 
+              AWS: 'arn:aws:iam::324320755747:user/ajay.anbuselvam.labs'
+            Action:
+              - 'sts:AssumeRole'
