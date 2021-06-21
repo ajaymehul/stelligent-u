@@ -32,3 +32,14 @@ Resources:
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/IAMReadOnlyAccess'
         - 'arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess'
+Outputs:
+  ReadAllRoleARN:
+    Description: 'ARN of IAM role to get all IAM resources'
+    Value: !GetAtt ReadAllRole.Arn
+    Export:
+      Name: IAMReadOnlyRole
+  ReadAllRole2ARN:
+    Description: 'ARN of IAM role to get all IAM & EC2 resources'
+    Value: !GetAtt ReadAllRole2.Arn
+    Export:
+      Name: IAMEC2ReadOnlyROle
