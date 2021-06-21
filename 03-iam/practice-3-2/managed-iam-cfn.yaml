@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'IAM Role with read access to all resources for stelligent-u'
+Metadata:
+  SupportedResources: 'IAM'
+Resources:
+  ReadAllRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      Description: 'IAM role to read all resources'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: 'arn:aws:iam::324320755747:user/ajay.anbuselvam.labs'
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns: 
+        - 'arn:aws:iam::aws:policy/ReadOnlyAccess'
+Outputs:
+  ReadAllRoleARN:
+    Description: 'ARN of IAM role to read all resources'
+    Value: !GetAtt ReadAllRole.Arn
+    Export:
+      Name: IAMReadOnlyRole
