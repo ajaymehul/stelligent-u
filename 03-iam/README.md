@@ -261,6 +261,8 @@ _In the context of an AWS User or Role, what is the difference between
 an inline policy and a customer managed policy? What are the differences
 between a customer managed policy and an AWS managed policy?_
 
+> An inline policy is created specifically just for the Role requiring it. It is not reusable. A customer managed policy is a new entire policy created for reuse. It can then be used by any roles requiring it. A customer managed policy requires maintenance from the user. An AWS managed policy is constantly updated and maintained by AWS as new services/features get added.
+
 #### Question: Role Assumption
 
 _When assuming a role, are the permissions of the initial principal
@@ -268,6 +270,9 @@ mixed with those of the role being assumed?
 Describe how that could easily be demonstrated with both a
 [positive and negative testing](https://www.guru99.com/positive-vs-negative-testing.html)
 approach._
+
+> No, the credentials obtained from assuming a role have specifically only the permission granted for that role. 
+To demonstrate, create an IAM role with S3 full access, attach it to your user and try creating a bucket and it shouldwork (positive testing). Then use that user to assume another role with ReadOnlyAccess policy only, and use those credentials to create bucket. This should fail (negative testing) despite the principal having S3FullAccess. 
 
 ## Lesson 3.3: Fine-Grained Controls With Policies
 
