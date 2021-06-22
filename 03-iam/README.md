@@ -168,6 +168,8 @@ stack's two roles in order to pass those values to the CLI function. You
 probably used the AWS web console to get the ARN for each role. What
 could you have done to your CFN template to make that unnecessary?_
 
+> Output the ARN of roles created in the CFN stack using exports.
+
 #### Task: Stack Outputs
 
 Institute that change from the Question above. Recreate the stack as per
@@ -259,6 +261,8 @@ _In the context of an AWS User or Role, what is the difference between
 an inline policy and a customer managed policy? What are the differences
 between a customer managed policy and an AWS managed policy?_
 
+> An inline policy is created specifically just for the Role requiring it. It is not reusable. A customer managed policy is a new entire policy created for reuse. It can then be used by any roles requiring it. A customer managed policy requires maintenance from the user. An AWS managed policy is constantly updated and maintained by AWS as new services/features get added.
+
 #### Question: Role Assumption
 
 _When assuming a role, are the permissions of the initial principal
@@ -266,6 +270,9 @@ mixed with those of the role being assumed?
 Describe how that could easily be demonstrated with both a
 [positive and negative testing](https://www.guru99.com/positive-vs-negative-testing.html)
 approach._
+
+> No, the credentials obtained from assuming a role have specifically only the permission granted for that role. 
+To demonstrate, create an IAM role with S3 full access, attach it to your user and try creating a bucket and it shouldwork (positive testing). Then use that user to assume another role with ReadOnlyAccess policy only, and use those credentials to create bucket. This should fail (negative testing) despite the principal having S3FullAccess. 
 
 ## Lesson 3.3: Fine-Grained Controls With Policies
 
@@ -322,7 +329,16 @@ read-only access to the other.
 
 *Were there any errors? If so, take note of them.*
 
+``` 
+$ aws s3 cp random_file s3://stelli-u-iam-bucket-ajay/random_file
+upload: ./random_file to s3://stelli-u-iam-bucket-ajay/random_file
+$ aws s3 cp random_file s3://stelli-u-iam-bucket-ajay-2/random_file
+upload failed: ./random_file to s3://stelli-u-iam-bucket-ajay-2/random_file An error occurred (AccessDenied) when calling the PutObject operation: Access Denied 
+```
+
 *What were the results you expected, based on the role's policy?*
+
+> The results were as expected. I was able to upload objects to the bucket for which the role had full access, and it failed for which it had read only access.
 
 #### Lab 3.3.3: Conditional restrictions
 
@@ -356,6 +372,8 @@ tests]](https://smartbear.com/learn/automated-testing/negative-testing/)
 that could be automated in order to confirm the permissions for the
 Role?_
 
+> I could add more tests like trying to list other buckets with the new IAM role that are not in the resource constraint to check for an implicit deny.
+
 #### Task: Positive and Negative Tests
 
 Code at least one new positive and one new negative test.
@@ -365,6 +383,9 @@ Code at least one new positive and one new negative test.
 _Is it possible to limit uploads of objects with a specific prefix (e.g.
 starting with "lebowski/") to an S3 bucket using IAM conditions? If not, how else
 could this be accomplished?_
+
+> Using IAM conditions to explicitly deny with `StringNotLike ` for a prefix might be solution. It did not work for me, and I haven't figured out why. 
+What worked for me is not using conditions, but instead split Get/List actions to a different statement, and have a statement with `Put*` actions with resource constraint set to `<bucket-name>/<prefix>/*`.
 
 #### Task: Limiting Uploads
 

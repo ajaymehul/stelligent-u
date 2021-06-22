@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'IAM Role with read access to all IAM resources for stelligent-u'
+Metadata:
+  SupportedResources: 'IAM'
+Resources:
+  ReadAllRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      Description: 'IAM role to get all IAM reosurces'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: 'arn:aws:iam::324320755747:user/ajay.anbuselvam.labs'
+            Action:
+              - 'sts:AssumeRole'
+  RolePolicies:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      ManagedPolicyName: 'ajay-iam-read-all-resources'
+      Description: 'Reusable IAM policy to read all IAM resources'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 
+              - "iam:Get*"
+              - "iam:List*"
+            Resource: "*"
+      Roles:
+        - Ref: 'ReadAllRole' 
+        - Ref: 'ReadAllRole2'        
+  ReadAllRole2:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      Description: 'Second IAM role to get IAM resources'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: 
+              AWS: 'arn:aws:iam::324320755747:user/ajay.anbuselvam.labs'
+            Action:
+              - 'sts:AssumeRole'

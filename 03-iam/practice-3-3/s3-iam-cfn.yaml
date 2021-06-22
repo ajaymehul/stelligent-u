@@ -1,0 +1,69 @@
+Description: 'IAM Role for stelligent-u'
+Metadata:
+  SupportedResources: 'IAM S3'
+Resources:
+  S3FullAccess:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      Description: 'IAM role for Full S3 Access'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: 'arn:aws:iam::324320755747:user/ajay.anbuselvam.labs'
+            Action:
+              - 'sts:AssumeRole'
+  RolePolicies:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      ManagedPolicyName: 'ajay-s3-full-access'
+      Description: 'IAM policy for full S3 access'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 
+              - "s3:Put*"
+            Resource: 
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket, '/lebowski/*']]
+          - Effect: Allow
+            Action: 
+              - "s3:Get*"
+              - "s3:List*"
+            Resource: 
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket, '/*']]
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket]]
+          - Effect: Allow
+            Action: 
+              - "s3:Get*"
+              - "s3:List*"
+            Resource: 
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket2, '/*']]
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket2]]
+            Condition:
+              StringLike: 
+                s3:prefix: 
+                  - 'lebowski/*'
+      Roles:
+        - Ref: 'S3FullAccess'     
+  s3Bucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: 'stelli-u-bucket-ajay'
+      Tags:
+        - Key: 'Owner'
+          Value: 'Ajay'
+  s3Bucket2:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: 'stelli-u-bucket-ajay-2'
+      Tags:
+        - Key: 'Owner'
+          Value: 'Ajay'
+Outputs:
+  ReadAllRoleARN:
+    Description: 'ARN of IAM role for Full S3 Access'
+    Value: !GetAtt S3FullAccess.Arn
+    Export:
+      Name: ajay-s3-full-access-role
