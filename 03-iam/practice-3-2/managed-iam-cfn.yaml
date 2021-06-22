@@ -1,4 +1,3 @@
-AWSTemplateFormatVersion: 2010-09-09
 Description: 'IAM Role for stelligent-u'
 Metadata:
   SupportedResources: 'IAM'

@@ -1,0 +1,38 @@
+Description: 'IAM Role for stelligent-u'
+Metadata:
+  SupportedResources: 'IAM S3'
+Resources:
+  S3FullAccess:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      Description: 'IAM role for Full S3 Access'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: 'arn:aws:iam::324320755747:user/ajay.anbuselvam.labs'
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns: 
+        - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
+  s3Bucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: 'stelli-u-iam-bucket-ajay'
+      Tags:
+        - Key: 'Owner'
+          Value: 'Ajay'
+  s3Bucket2:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: 'stelli-u-iam-bucket-ajay-2'
+      Tags:
+        - Key: 'Owner'
+          Value: 'Ajay'
+Outputs:
+  ReadAllRoleARN:
+    Description: 'ARN of IAM role for Full S3 Access'
+    Value: !GetAtt S3FullAccess.Arn
+    Export:
+      Name: ajay-s3-full-access-role
