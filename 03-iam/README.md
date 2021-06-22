@@ -329,7 +329,16 @@ read-only access to the other.
 
 *Were there any errors? If so, take note of them.*
 
+``` 
+$ aws s3 cp random_file s3://stelli-u-iam-bucket-ajay/random_file
+upload: ./random_file to s3://stelli-u-iam-bucket-ajay/random_file
+$ aws s3 cp random_file s3://stelli-u-iam-bucket-ajay-2/random_file
+upload failed: ./random_file to s3://stelli-u-iam-bucket-ajay-2/random_file An error occurred (AccessDenied) when calling the PutObject operation: Access Denied 
+```
+
 *What were the results you expected, based on the role's policy?*
+
+> The results were as expected. I was able to upload objects to the bucket for which the role had full access, and it failed for which it had read only access.
 
 #### Lab 3.3.3: Conditional restrictions
 

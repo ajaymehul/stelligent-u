@@ -25,7 +25,12 @@ Resources:
           - Effect: Allow
             Action: 
               - "s3:*"
-            Resource: "*"
+            Resource: !Join ['',['arn:aws:s3:::', !Ref s3Bucket, '/*']]
+          - Effect: Allow
+            Action: 
+              - "s3:Get*"
+              - "s3:List*"
+            Resource: !Join ['',['arn:aws:s3:::', !Ref s3Bucket2, '/*']]
       Roles:
         - Ref: 'S3FullAccess'     
   s3Bucket:
