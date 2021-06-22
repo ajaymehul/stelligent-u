@@ -14,8 +14,20 @@ Resources:
               AWS: 'arn:aws:iam::324320755747:user/ajay.anbuselvam.labs'
             Action:
               - 'sts:AssumeRole'
-      ManagedPolicyArns: 
-        - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
+  RolePolicies:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      ManagedPolicyName: 'ajay-s3-full-access'
+      Description: 'IAM policy for full S3 access'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 
+              - "s3:*"
+            Resource: "*"
+      Roles:
+        - Ref: 'S3FullAccess'     
   s3Bucket:
     Type: AWS::S3::Bucket
     Properties: 
