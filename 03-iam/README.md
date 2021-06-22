@@ -372,6 +372,8 @@ tests]](https://smartbear.com/learn/automated-testing/negative-testing/)
 that could be automated in order to confirm the permissions for the
 Role?_
 
+> I could add more tests like trying to list other buckets with the new IAM role that are not in the resource constraint to check for an implicit deny.
+
 #### Task: Positive and Negative Tests
 
 Code at least one new positive and one new negative test.
@@ -381,6 +383,9 @@ Code at least one new positive and one new negative test.
 _Is it possible to limit uploads of objects with a specific prefix (e.g.
 starting with "lebowski/") to an S3 bucket using IAM conditions? If not, how else
 could this be accomplished?_
+
+> Using IAM conditions to explicitly deny with `StringNotLike ` for a prefix might be solution. It did not work for me, and I haven't figured out why. 
+What worked for me is not using conditions, but instead split Get/List actions to a different statement, and have a statement with `Put*` actions with resource constraint set to `<bucket-name>/<prefix>/*`.
 
 #### Task: Limiting Uploads
 
