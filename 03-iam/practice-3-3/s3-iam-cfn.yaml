@@ -25,12 +25,20 @@ Resources:
           - Effect: Allow
             Action: 
               - "s3:*"
-            Resource: !Join ['',['arn:aws:s3:::', !Ref s3Bucket, '/*']]
+            Resource: 
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket, '/*']]
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket]]
           - Effect: Allow
             Action: 
               - "s3:Get*"
               - "s3:List*"
-            Resource: !Join ['',['arn:aws:s3:::', !Ref s3Bucket2, '/*']]
+            Resource: 
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket2, '/*']]
+              - !Join ['',['arn:aws:s3:::', !Ref s3Bucket2]]
+            Condition:
+              StringLike: 
+                s3:prefix: 
+                  - 'lebowski/'
       Roles:
         - Ref: 'S3FullAccess'     
   s3Bucket:
