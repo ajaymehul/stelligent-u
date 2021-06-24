@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Creates a VPC for stelligent-u'
+Description: 'Creates VPC IG Subnet for stelligent-u'
 Metadata:
-  SupportedResources: 'IAM'
+  SupportedResources: 'EC2'
 Parameters:
   VpcName:
     Description: 'The name of the VPC being created.'
@@ -90,3 +90,14 @@ Resources:
     Properties:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet1
+Outputs:
+  VpcId:
+    Description: 'ID of VPC created in this stack'
+    Value: !Ref myVPC
+    Export:
+      Name: 'ajay-vpc-id'
+  SubnetId:
+    Description: 'ID of public subnet created in this stack'
+    Value: !Ref PublicSubnet1
+    Export:
+      Name: 'ajay-public-subnet-id'
