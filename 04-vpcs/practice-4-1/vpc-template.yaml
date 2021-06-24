@@ -11,7 +11,7 @@ Parameters:
     Description: Please enter the IP range (CIDR notation) for this VPC
     Type: String
     Default: 10.192.0.0/16
-  PrivateSubnet1CIDR:
+  PublicSubnet1CIDR:
     Description: Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone
     Type: String
     Default: 10.192.20.0/24
@@ -33,12 +33,12 @@ Resources:
       - Key: 'stelligent-u-lab'
         Value: '4.1.1'
       
-  PrivateSubnet1:
+  PublicSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref myVPC
       AvailabilityZone: !Select [ 0, !GetAZs  '' ]
-      CidrBlock: !Ref PrivateSubnet1CIDR
+      CidrBlock: !Ref PublicSubnet1CIDR
       MapPublicIpOnLaunch: false
       Tags:
         - Key: 'user'
@@ -62,3 +62,31 @@ Resources:
     Properties:
       InternetGatewayId: !Ref myInternetGateway
       VpcId: !Ref myVPC
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref myVPC
+      Tags:
+      - Key: Name
+        Value: 'ajay-public-route-table'
+      - Key: 'user'
+        Value: 'ajay.anbuselvam.labs'
+      - Key: 'stelligent-u-lesson'
+        Value: '4.1'
+      - Key: 'stelligent-u-lab'
+        Value: '4.1.1'
+
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref myInternetGateway
+
+  PublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1
