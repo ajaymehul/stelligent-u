@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Creates test EC2 instance for stelligent-u VPC labs'
+Parameters:
+  AmiId:
+    Description: 'AMI ID for EC2 instance'
+    Type: String
+    Default: 'ami-0ff8a91507f77f867'
+  InstanceType:
+    Description: 'Instance type for EC2 instance'
+    Type: String
+    Default: 't2.micro'
+  KeyPair:
+    Description: 'SSH key pair for EC2 instance'
+    Type: String
+    Default: 'ajay-ec2-key-pair'
+Metadata:
+  SupportedResources: 'EC2'
+Resources:
+  MyEC2Instance: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      InstanceType: !Ref InstanceType
+      ImageId: !Ref AmiId
+      KeyName: !Ref KeyPair
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/sdm"
+        Ebs: 
+          VolumeType: io1
+          Iops: 200
+          DeleteOnTermination: false
+          VolumeSize: 20
+      - DeviceName: "/dev/sdk"
+        NoDevice: {}
+      SubnetId: !ImportValue ajay-public-subnet-id
