@@ -35,7 +35,7 @@ Resources:
       - AssociatePublicIpAddress: True
         DeleteOnTermination: True
         SubnetId:
-          !ImportValue ajay-public-subnet-id
+          !ImportValue ajay-public-subnet-id-2
         DeviceIndex: '0'
         GroupSet:
           - Ref: InstanceSecurityGroup
@@ -45,7 +45,7 @@ Resources:
     Properties:
       GroupDescription: Allow ssh to client host
       VpcId:
-        !ImportValue ajay-vpc-id
+        !ImportValue ajay-vpc-id-2
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 22
@@ -88,7 +88,7 @@ Resources:
       - AssociatePublicIpAddress: False
         DeleteOnTermination: True
         SubnetId:
-          !ImportValue ajay-private-subnet-id
+          !ImportValue ajay-private-subnet-id-2
         DeviceIndex: '0'
         GroupSet:
           - Ref: InstanceSecurityGroup
