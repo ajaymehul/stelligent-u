@@ -170,9 +170,13 @@ reachable from anywhere outside your VPC.
 
 _Can you ping your instance now?_
 
+> Yes
+
 ##### Question: SSH
 
 _Can you ssh into your instance now?_
+
+> Yes
 
 ##### Question: Traffic
 
@@ -180,6 +184,8 @@ _If you can ssh, can you send any traffic (e.g. curl) out to the Internet?_
 
 At this point, you've made your public EC2 instance an [ssh bastion](https://docs.aws.amazon.com/quickstart/latest/linux-bastion/architecture.html).
 We'll make use of that to explore your network below.
+
+> Not any traffic. Curl doesn't work because the security group only allows traffic on port 22. Files can be transferred using scp though.
 
 #### Lab 4.1.7: NAT Gateway
 
