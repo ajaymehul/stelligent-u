@@ -15,6 +15,10 @@ Parameters:
     Description: Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone
     Type: String
     Default: 10.192.20.0/24
+  PrivateSubnet1CIDR:
+    Description: Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: 10.192.30.0/24
 
 Resources:
   myVPC:
@@ -63,7 +67,7 @@ Resources:
       InternetGatewayId: !Ref myInternetGateway
       VpcId: !Ref myVPC
 
-  PublicRouteTable:
+  RouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref myVPC
@@ -81,15 +85,59 @@ Resources:
     Type: AWS::EC2::Route
     DependsOn: InternetGatewayAttachment
     Properties:
-      RouteTableId: !Ref PublicRouteTable
+      RouteTableId: !Ref RouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref myInternetGateway
 
   PublicSubnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      RouteTableId: !Ref PublicRouteTable
+      RouteTableId: !Ref RouteTable
       SubnetId: !Ref PublicSubnet1
+
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVPC
+      AvailabilityZone: !Select [ 0, !GetAZs  '' ]
+      CidrBlock: !Ref PrivateSubnet1CIDR
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref myVPC
+
+  PrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet1
+
+  NAT:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+        - EIP
+        - AllocationId
+      SubnetId:
+        !Ref PublicSubnet1
+
+  EIP:
+    DependsOn: InternetGatewayAttachment
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  PrivateRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NAT
+
 Outputs:
   VpcId:
     Description: 'ID of VPC created in this stack'
@@ -101,3 +149,8 @@ Outputs:
     Value: !Ref PublicSubnet1
     Export:
       Name: 'ajay-public-subnet-id'
+  PrivateSubnetId:
+    Description: 'ID of private subnet created in this stack'
+    Value: !Ref PrivateSubnet1
+    Export:
+      Name: 'ajay-private-subnet-id'
