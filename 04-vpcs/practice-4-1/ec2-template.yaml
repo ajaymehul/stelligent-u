@@ -68,3 +68,28 @@ Resources:
     Type: AWS::EC2::EIP
     Properties:
       InstanceId: !Ref MyEC2Instance
+
+  PrivateEC2Instance: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      InstanceType: !Ref InstanceType
+      ImageId: !Ref AmiId
+      KeyName: !Ref KeyPair
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/sdm"
+        Ebs: 
+          VolumeType: io1
+          Iops: 200
+          DeleteOnTermination: false
+          VolumeSize: 20
+      - DeviceName: "/dev/sdk"
+        NoDevice: {}
+      NetworkInterfaces:
+      - AssociatePublicIpAddress: False
+        DeleteOnTermination: True
+        SubnetId:
+          !ImportValue ajay-private-subnet-id
+        DeviceIndex: '0'
+        GroupSet:
+          - Ref: InstanceSecurityGroup
+    
