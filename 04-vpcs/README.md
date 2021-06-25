@@ -133,10 +133,14 @@ Launch an EC2 instance into your VPC.
 
 _After you launch your new stack, can you ssh to the instance?_
 
+> No
+
 ##### Question: Verify Connectivity
 
 _Is there a way that you can verify Internet connectivity from the instance
 without ssh'ing to it?_
+
+> Ping the ip address
 
 #### Lab 4.1.5: Security Group
 
@@ -147,6 +151,8 @@ Add a security group to your EC2 stack:
 ##### Question: Connectivity
 
 _Can you ssh to your instance yet?_
+
+> Yes, but I had specified an ENI as part of the EC2 resource.
 
 #### Lab 4.1.6: Elastic IP
 
