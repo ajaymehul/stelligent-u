@@ -212,14 +212,20 @@ existing instance stack.
 
 _Can you find a way to ssh to this instance?_
 
+> Yes, using ssh-agent to ssh into bastion, then the private ec2 instance.
+
 ##### Question: Egress
 
 _If you can ssh to it, can you send traffic out?_
+
+> Yes.
 
 ##### Question: Deleting the Gateway
 
 _If you delete the NAT gateway, what happens to the ssh session on your private
 instance?_
+
+> The ssh session is still alive, but internet connectivity from the private instance is gone.
 
 ##### Question: Recreating the Gateway
 
@@ -227,6 +233,8 @@ _If you recreate the NAT gateway and detach the Elastic IP from the public EC2
 instance, can you still reach the instance from the outside?_
 
 Test it out with the AWS console.
+
+> Recreating the NAT Gateway, and updating the route table brought back internet connectivity. Deattaching the EIP from public EC2 killed the ssh connection.
 
 #### Lab 4.1.8: Network ACL
 
