@@ -34,9 +34,7 @@ Resources:
         Value: 'ajay.anbuselvam.labs'
       - Key: 'stelligent-u-lesson'
         Value: '4.1'
-      - Key: 'stelligent-u-lab'
-        Value: '4.1.1'
-      
+
   PublicSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
@@ -49,8 +47,6 @@ Resources:
           Value: 'ajay.anbuselvam.labs'
         - Key: 'stelligent-u-lesson'
           Value: '4.1'
-        - Key: 'stelligent-u-lab'
-          Value: '4.1.1'
   myInternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
@@ -59,8 +55,6 @@ Resources:
         Value: 'ajay.anbuselvam.labs'
       - Key: 'stelligent-u-lesson'
         Value: '4.1'
-      - Key: 'stelligent-u-lab'
-        Value: '4.1.1'
   InternetGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
@@ -78,8 +72,6 @@ Resources:
         Value: 'ajay.anbuselvam.labs'
       - Key: 'stelligent-u-lesson'
         Value: '4.1'
-      - Key: 'stelligent-u-lab'
-        Value: '4.1.1'
 
   DefaultPublicRoute:
     Type: AWS::EC2::Route
@@ -101,11 +93,21 @@ Resources:
       VpcId: !Ref myVPC
       AvailabilityZone: !Select [ 0, !GetAZs  '' ]
       CidrBlock: !Ref PrivateSubnet1CIDR
+      Tags:
+      - Key: 'user'
+        Value: 'ajay.anbuselvam.labs'
+      - Key: 'stelligent-u-lesson'
+        Value: '4.1'
 
   PrivateRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref myVPC
+      Tags:
+      - Key: 'user'
+        Value: 'ajay.anbuselvam.labs'
+      - Key: 'stelligent-u-lesson'
+        Value: '4.1'
 
   PrivateSubnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -122,13 +124,22 @@ Resources:
         - AllocationId
       SubnetId:
         !Ref PublicSubnet1
+      Tags:
+      - Key: 'user'
+        Value: 'ajay.anbuselvam.labs'
+      - Key: 'stelligent-u-lesson'
+        Value: '4.1'
 
   EIP:
     DependsOn: InternetGatewayAttachment
     Type: AWS::EC2::EIP
     Properties:
       Domain: vpc
-
+      Tags:
+      - Key: 'user'
+        Value: 'ajay.anbuselvam.labs'
+      - Key: 'stelligent-u-lesson'
+        Value: '4.1'
   PrivateRoute:
     Type: AWS::EC2::Route
     Properties:
